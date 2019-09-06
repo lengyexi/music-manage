@@ -6,12 +6,13 @@ var instance = axios.create();
 // 添加请求拦截器
 instance.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
+    console.log(config);
     let notTookeUrl = ['/api/registry','/api/login']
     return notTookeUrl.includes(config.url) ? config : {
       ...config,
       headers:{
         ...config.headers,
-        token:"Fsfasfasfasfdsafdasfsafsasa"
+        token:localStorage.getItem('token')
       }
     }
   }, function (error) {
@@ -32,7 +33,6 @@ instance.interceptors.response.use(function (response) {
         case 422:
           alert('参数有误')
           break;
-
         case 401:
           alert('没有权限')
           router.push('/login')
